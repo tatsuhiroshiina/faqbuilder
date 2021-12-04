@@ -1,0 +1,26 @@
+= link_to "ログアウト", destroy_user_session_path, method: :delete
+= form_with model: @post, local: true do |form|
+  p
+    = form.label :question_type
+    br
+    = form.select :question_type, { "内閣府" => "内閣府", "CES" => "CES" }
+  p
+    = form.label :question
+    br
+    = form.text_area :question, size: "50x5"
+  p
+    = form.label :answer
+    br
+    = form.text_area :answer, size: "50x5"
+  = form.submit
+
+.search-form
+  = form_with url: search_path, method: :get, local: true do |f|
+    = f.text_field :keyword, value: @keyword
+    = f.submit "検索"
+
+.post-list
+  - @posts.each do |post|
+      = post.question
+      br
+      = post.answer
