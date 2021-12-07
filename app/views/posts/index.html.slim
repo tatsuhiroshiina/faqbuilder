@@ -2,7 +2,7 @@
  span.offset-10
   = current_user.email
  = link_to "ログアウト", destroy_user_session_path, method: :delete, class: "offset-10"
- = form_with model: @post, local: true do |form|
+ = form_with url: posts_path, method: :post, local: true do |form|
   p
     = form.label :question_type
     br
