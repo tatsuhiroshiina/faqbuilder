@@ -4,9 +4,9 @@ class PostsController < ApplicationController
     if @post.save
         @posts_same_type = Post.where(question_type: @post.question_type)
         if @posts_same_type != nil
-          @post.question_id = @posts_same_type.count + 1
+          @post.update(question_id: @posts_same_type.count + 1)
         else
-          @post.question_id = 1
+          @post.update(question_id: 1)
         end
     end
     redirect_to posts_path
@@ -20,12 +20,18 @@ class PostsController < ApplicationController
   def search
     @posts = Post.search(params[:keyword]).where(question_type: params[:question_type])
     @keyword = params[:keyword]
-    @question_type =  params[:question_type]
+    @question_type = params[:question_type]
     render "index"
   end
 
+  def destroy
+    @post = Post.find params[:id]
+    @post_id = @post.id
+    @msg = "削除が成功"
+    @post.destroy
+  end
   private
     def post_params
-      params.require(:post).permit(:question, :answer, :question_id, :question_type)
+      params.require(:post).permit(:title, :question, :answer, :question_id, :question_type)
     end
 end

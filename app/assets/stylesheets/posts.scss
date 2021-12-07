@@ -1,3 +1,56 @@
 // Place all the styles related to the posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+.question-label{
+  color: blue;
+}
+.answer-label{
+  color: red;
+}
+.q-box{
+  border-color: black;
+  border-width: thin;
+  display: inline-block;
+}
+.a-box{
+  border-color: black;
+  border-width: thin;
+  display: inline-block;
+}
+.q-letter{
+  color: blue;
+  font-size: 20px;
+}
+.a-letter{
+  color: red;
+  font-size: 20px;
+}
+.q-type{
+  margin-right: 5px;
+  font-weight: bold;
+}
+.qa-container{
+  margin: 10px 0;
+}
+.add-question{
+  margin-left: 400px;
+}
+.type-and-id{
+  font-weight: bold;
+}
+.q-id{
+  font-weight: bold;
+  margin-right: 5px;
+}
+.enter-boxes{
+  height: 100px;
+}
+.search-box{
+  margin-top: 50px;
+}
+.date{
+  color: gray;
+}
+.fa-trash{
+  color: red;
+}

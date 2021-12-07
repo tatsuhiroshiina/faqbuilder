@@ -1,29 +1,54 @@
-= link_to "ログアウト", destroy_user_session_path, method: :delete
-= form_with model: @post, local: true do |form|
+.col-10.offset-1
+ span.offset-10
+  = current_user.email
+ = link_to "ログアウト", destroy_user_session_path, method: :delete, class: "offset-10"
+ = form_with model: @post, local: true do |form|
   p
     = form.label :question_type
     br
-    = form.select :question_type, { "J-Startup" => "J-startup", "内閣府" => "内閣府", "CES" => "CES" }
+    = form.select :question_type, { "J-Startup" => "J-startup", "内閣府" => "内閣府", "CES" => "CES", "その他" => "その他" }
   p
-    = form.label :question
+    = form.label :title, "Topic"
     br
-    = form.text_area :question, size: "50x5"
+    = form.text_field :title, placeholder: "任意"
   p
-    = form.label :answer
+    = form.label :question, class: "question-label"
     br
-    = form.text_area :answer, size: "50x5"
-  = form.submit
+    = form.text_area :question, class: "enter-boxes col-11"
+  p
+    = form.label :answer, class: "answer-label"
+    br
+    = form.text_area :answer, class: "enter-boxes col-11"
+  = form.submit "追加", class: "offset-10"
 
-.search-form
+ .search-form
   = form_with url: search_path, method: :get, local: true do |f|
     = f.select :question_type, { "J-Startup" => "J-startup", "内閣府" => "内閣府", "CES" => "CES" },selected: @question_type
-    = f.text_field :keyword, value: @keyword
+    = f.text_field :keyword, value: @keyword, class: "col-8 search-box"
     = f.submit "検索"
 
-.post-list
+ .post-list
   - @posts.each do |post|
-      span 質問
-      = post.question
-      br
-      span 回答
-      = post.answer
+    div id="post-#{post.id}"
+      .qa-container
+       .type-and-id
+        span.q-type
+         = post.question_type
+        span.q-id
+         = post.question_id
+        -if post.title?
+         span：
+         span
+          = post.title
+        = link_to post_path(post), method: :delete, remote: true do
+          i.fa.fa-trash aria-hidden="true"
+       span.date
+         =post.created_at.strftime("%Y年%-m月%-d日 %-H時%-M分")
+       br
+       .q-box
+        span.q-letter Q.
+        = safe_join(post.question.to_s.split("\n"),tag(:br))
+       br
+       .a-box
+        span.a-letter A.
+        = safe_join(post.answer.to_s.split("\n"),tag(:br))
