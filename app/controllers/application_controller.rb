@@ -10,10 +10,10 @@ class ApplicationController < ActionController::Base
 
   private
   # 配列内にアクセスを許可するIPアドレスを羅列する。
-  PERMIT_ADDRESSES = ['192.168.11.3', '::1'].freeze
+  PERMIT_ADDRESSES = ['192.168.11.3', '36.2.33.230', '::1'].freeze
 
   def restrict_remote_ip
-  unless PERMIT_ADDRESSES.include?(request.ip)
+  unless PERMIT_ADDRESSES.include?(request.remote_ip)
     redirect_to("https://www.google.com")
   end
   end
