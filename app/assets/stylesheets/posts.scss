@@ -37,6 +37,28 @@
 }
 .type-and-id{
   font-weight: bold;
+  display: inline;
+}
+.title-area{
+  width: 150px;
+  height: 30px;
+}
+.questionlabel{
+  display: inline;
+}
+.answerlabel{
+  display: inline;
+}
+.csv-download{
+  margin-left: 20px;
+  margin-top: -5px
+}
+.fa-edit{
+  margin-left: 30px;
+  cursor: pointer;
+}
+.fa-trash{
+  margin-left: 30px;
 }
 .q-id{
   font-weight: bold;
@@ -46,7 +68,7 @@
   height: 100px;
 }
 .search-box{
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .date{
   color: gray;

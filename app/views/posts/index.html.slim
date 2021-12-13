@@ -24,8 +24,9 @@
  .search-form
   = form_with url: search_path, method: :get, local: true do |f|
     = f.select :question_type, { "J-Startup" => "J-startup", "内閣府" => "内閣府", "CES" => "CES" },selected: @question_type
-    = f.text_field :keyword, value: @keyword, class: "col-8 search-box"
+    = f.text_field :keyword, value: @keyword, class: "col-sm-4 col-md-7 search-box"
     = f.submit "検索"
+    = link_to "csv出力",posts_path(format: :csv), class: "csv-download btn btn-sm btn-success"
 
  .post-list
   - @posts.each do |post|
@@ -40,15 +41,47 @@
          span：
          span
           = post.title
-        = link_to post_path(post), method: :delete, remote: true do
+       = link_to post_path(post), method: :delete, remote: true, data: { confirm: '削除しますか？' } do
           i.fa.fa-trash aria-hidden="true"
+       |<span data-comment-id=#{ post.id } class="js-edit-comment-button">
+          <i class="fas fa-edit text-primary"></i>
+        </span>
+       |
+        <div id="js-question-#{ post.id }">
+         <span style="display: none;" id="js-Q-question-#{ post.id }">
+          Q.
+        　</span>
+         <textarea style="display: none;" id="js-textarea-question-#{ post.id }" class="form-control comment-post-error">
+          #{ post.question }
+         </textarea>
+        </div>
+        <div id="js-comment-#{ post.id }">
+         <span style="display: none;" id="js-A-comment-#{ post.id }">
+          A.
+        　</span>
+         <textarea style="display: none;" id="js-textarea-comment-#{ post.id }" class="form-control comment-post-error">
+         #{ post.answer }
+         </textarea>
+         <div id="js-comment-button-#{ post.id }" style="display: none;">
+         <br>
+            <button data-cancel-id=#{ post.id } type="button" class="btn btn-light comment-cancel-button offset-6 offset-md-8">キャンセル</button>
+            <button data-update-id=#{ post.id } type="submit" class="btn btn-success comment-update-button">更新</button>
+          </div>
+         </div>
+      div id="hello-#{ post.id }"
        span.date
          =post.created_at.strftime("%Y年%-m月%-d日 %-H時%-M分")
        br
        .q-box
-        span.q-letter Q.
-        = safe_join(post.question.to_s.split("\n"),tag(:br))
+        |<span class="q-letter"> Q.
+         </span>
+         <p id="js-question-label-#{ post.id }" class="questionlabel">
+         #{safe_join(post.question.to_s.split("\n"),tag(:br))}
+         </p>
        br
        .a-box
-        span.a-letter A.
-        = safe_join(post.answer.to_s.split("\n"),tag(:br))
+        |<span class="a-letter"> A.
+         </span>
+         <p id="js-comment-label-#{ post.id }" class="answerlabel">
+         #{safe_join(post.answer.to_s.split("\n"),tag(:br))}
+         </p>

@@ -8,10 +8,110 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   </head>
 
   <body>
     <%= yield %>
   </body>
+  <script>
+    $(function () {
+    $(document).on("click", ".js-edit-comment-button", function () {
+        const commentId = $(this).data('comment-id');
+        const commentLabelArea = $('#js-comment-label-' + commentId);
+        const commentTextArea = $('#js-textarea-comment-' + commentId);
+        const commentButton = $('#js-comment-button-' + commentId);
+        const questionLabelArea = $('#js-question-label-' + commentId);
+        const questionTextArea = $('#js-textarea-question-' + commentId);
+        const qtext = $('#js-Q-question-' + commentId);
+        const atext = $('#js-A-comment-' + commentId);
+        const qanda = $('#hello-' + commentId);
+
+        qtext.show();
+        atext.show();
+        questionLabelArea.hide();
+        commentLabelArea.hide();
+        commentTextArea.show();
+        questionTextArea.show();
+        commentButton.show();
+        qanda.hide();
+      });
+    });
+
+    $(function () {
+      $(document).on("click", ".comment-cancel-button", function () {
+        const commentId = $(this).data('cancel-id');
+        const commentLabelArea = $('#js-comment-label-' + commentId);
+        const questionLabelArea = $('#js-question-label-' + commentId);
+        const commentTextArea = $('#js-textarea-comment-' + commentId);
+        const commentButton = $('#js-comment-button-' + commentId);
+        const commentError = $('#js-comment-post-error-' + commentId);
+        const questionTextArea = $('#js-textarea-question-' + commentId);
+        const qtext = $('#js-Q-question-' + commentId);
+        const atext = $('#js-A-comment-' + commentId);
+        const qanda = $('#hello-' + commentId);
+
+        questionTextArea.hide();
+        qtext.hide();
+        atext.hide();
+        questionLabelArea.show();
+        commentLabelArea.show();
+        commentTextArea.hide();
+        commentButton.hide();
+        commentError.hide();
+        qanda.show();
+      });
+    });
+
+    $(function () {
+      $(document).on("click", ".comment-update-button", function () {
+        const commentId = $(this).data('update-id');
+        const textField = $('#js-textarea-comment-' + commentId);
+        const answer = textField.val();
+        const textField2 = $('#js-textarea-question-' + commentId);
+        const question = textField2.val();
+        console.log(answer);
+        console.log(question);
+
+        $.ajax({
+          url: '/posts/' + commentId,
+          type: 'PATCH',
+          data: {
+            post: {
+              question: question,
+              answer: answer
+            }
+          }
+        })
+          .done(function (data) {
+            const commentLabelArea = $('#js-comment-label-' + commentId);
+            const questionLabelArea = $('#js-question-label-' + commentId);
+            const commentTextArea = $('#js-textarea-comment-' + commentId);
+            const questionTextArea = $('#js-textarea-question-' + commentId);
+            const qanda = $('#hello-' + commentId);
+            const commentButton = $('#js-comment-button-' + commentId);
+            const commentError = $('#js-comment-post-error-' + commentId);
+            const question = $('#js-Q-question-' + commentId);
+            const answer = $('#js-A-comment-' + commentId);
+
+            question.hide();
+            answer.hide();
+            questionLabelArea.show();
+            questionLabelArea.text(data.question);
+            commentLabelArea.show();
+            commentLabelArea.text(data.answer);
+            questionTextArea.hide();
+            commentTextArea.hide();
+            qanda.show();
+            commentButton.hide();
+            commentError.hide();
+          })
+
+          .fail(function () {
+            const commentError = $('#js-comment-post-error-' + commentId);
+            commentError.text('コメントを入力してください');
+          })
+      });
+    });
+    </script>
 </html>
