@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   validates :answer, presence: true
 
   def self.search(keyword)
-    where(["question_id like? OR question_type like? OR title like? OR question like? OR answer like?", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%"])
+    where(["cast(id as text) like? OR question_type like? OR title like? OR question like? OR answer like?", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%"])
   end
 
   def self.import(file)
