@@ -45,7 +45,8 @@
         span.q-type
          = post.question_type
         span.q-id
-         = Post.where(question_type: post.question_type, id: [..post.id]).count
+         - if Post.where(question_type: post.question_type, id: [..post.id]) != nil
+          = Post.where(question_type: post.question_type, id: [..post.id]).count
         -if post.title?
          span：
          span
