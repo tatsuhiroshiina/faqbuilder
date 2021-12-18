@@ -9,12 +9,23 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <%= favicon_link_tag('f-letter.png') %>
   </head>
 
   <body>
     <%= yield %>
   </body>
   <script>
+    $(function () {
+    $(document).on("click", ".import-button", function () {
+      const box = $('.file-import-box');
+      if (box.is(':hidden')) {
+        box.show();
+      }else{
+        box.hide();
+      }
+    });
+    });
     $(function () {
     $(document).on("click", ".js-edit-comment-button", function () {
         const commentId = $(this).data('comment-id');
@@ -26,7 +37,8 @@
         const qtext = $('#js-Q-question-' + commentId);
         const atext = $('#js-A-comment-' + commentId);
         const qanda = $('#hello-' + commentId);
-
+        const target = $('.target-'+ commentId)
+        if (target.is(':hidden')) {
         qtext.show();
         atext.show();
         questionLabelArea.hide();
@@ -35,6 +47,16 @@
         questionTextArea.show();
         commentButton.show();
         qanda.hide();
+      } else {
+        qtext.hide();
+        atext.hide();
+        questionLabelArea.show();
+        commentLabelArea.show();
+        commentTextArea.hide();
+        questionTextArea.hide();
+        commentButton.hide();
+        qanda.show();
+      }
       });
     });
 

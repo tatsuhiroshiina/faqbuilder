@@ -6,7 +6,10 @@ Rails.application.routes.draw do
   root to: 'toppages#index'
   get 'toppages/index'
   resources :users
-  resources :posts
+  resources :posts do
+    collection {post :import}
+  end
+  get 'download_csv', to: "posts#download_csv"
   get 'search' => 'posts#search'
   devise_scope :user do
     get "signup", :to => "users/registrations#new"

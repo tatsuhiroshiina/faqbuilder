@@ -3,6 +3,19 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   # このアクションを追加
+
+  def current_session_user
+    if !current_user
+      redirect_to root_path
+    end
+  end
+
+  def forbid_login_user
+    if current_user
+      redirect_to posts_path
+    end
+  end
+
   def after_sign_in_path_for(resource)
     posts_path
   end

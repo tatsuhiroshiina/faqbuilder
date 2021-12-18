@@ -1,12 +1,16 @@
+.notifications
+  - flash.each do |key, value|
+    = content_tag(:div, value, class: key)
 .col-10.offset-1
- span.offset-10
+ .span-right.col-12
   = current_user.email
- = link_to "ログアウト", destroy_user_session_path, method: :delete, class: "offset-10"
+  br
+  = link_to "ログアウト", destroy_user_session_path, method: :delete
  = form_with url: posts_path, method: :post, local: true do |form|
   p
     = form.label :question_type
     br
-    = form.select :question_type, { "J-Startup" => "J-startup", "内閣府" => "内閣府", "CES" => "CES", "その他" => "その他" }
+    = form.select :question_type, { "J-Startup" => "J-Startup", "内閣府" => "内閣府", "CES" => "CES", "その他" => "その他" }
   p
     = form.label :title, "Topic"
     br
@@ -23,11 +27,16 @@
 
  .search-form
   = form_with url: search_path, method: :get, local: true do |f|
-    = f.select :question_type, { "J-Startup" => "J-startup", "内閣府" => "内閣府", "CES" => "CES" },selected: @question_type
-    = f.text_field :keyword, value: @keyword, class: "col-sm-4 col-md-7 search-box"
+    = f.select :question_type, { "J-Startup" => "J-Startup", "内閣府" => "内閣府", "CES" => "CES" , "その他" => "その他" },selected: @question_type
+    = f.text_field :keyword, value: @keyword, class: "col-sm-3 col-md-5 col-lg-6 search-box"
     = f.submit "検索"
     = link_to "csv出力",posts_path(format: :csv), class: "csv-download btn btn-sm btn-success"
-
+    span.btn.btn-sm.btn-success.csv-download.import-button csvインポート
+  = form_tag import_posts_path, multipart: true do
+    .file-import-box
+     = link_to "入力用シート", download_csv_path, class: "btn btn-sm btn-dark", data: { confirm: 'csvインポート用のテンプレートをダウンロードしますか？' }
+     = file_field_tag :file
+     = submit_tag "インポート", class: "import-submit"
  .post-list
   - @posts.each do |post|
     div id="post-#{post.id}"
@@ -36,7 +45,7 @@
         span.q-type
          = post.question_type
         span.q-id
-         = post.question_id
+         = Post.where(question_type: post.question_type, id: [..post.id]).count
         -if post.title?
          span：
          span
@@ -48,7 +57,7 @@
         </span>
        |
         <div id="js-question-#{ post.id }">
-         <span style="display: none;" id="js-Q-question-#{ post.id }">
+         <span style="display: none;" class="target-#{ post.id }" id="js-Q-question-#{ post.id }">
           Q.
         　</span>
          <textarea style="display: none;" id="js-textarea-question-#{ post.id }" class="form-control comment-post-error">

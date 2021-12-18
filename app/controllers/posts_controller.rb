@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
 before_action :set_post, only: %i[update]
+before_action :current_session_user, {only: [:create, :index, :search, :update, :destroy, :import]}
 skip_before_action :verify_authenticity_token
 
   def create
@@ -53,15 +54,36 @@ skip_before_action :verify_authenticity_token
         .permit(:answer, :question)
   end
 
+  def import
+    if params[:file] != nil
+      Post.import(params[:file])
+      redirect_to posts_path
+      flash[:success] = 'csvインポート成功'
+    else
+      flash[:alert] = 'csvをインポートできませんでした'
+      redirect_to posts_path
+    end
+  end
+
+  def download_csv
+  send_file(
+    "#{Rails.root}/public/faq_template.csv",
+    filename: "faq_template.csv",
+    type: "application/csv"
+  )
+  end
+
   private
+
   def products_csv
     csv_date = CSV.generate do |csv|
-    csv_column_names = ["ID","Type","Question","Answer"]
+    csv_column_names = ["ID","Type", "Title", "Question","Answer"]
     csv << csv_column_names
     @posts.each do |post|
       csv_column_values = [
         post.question_id,
         post.question_type,
+        post.title,
         post.question,
         post.answer,
       ]
