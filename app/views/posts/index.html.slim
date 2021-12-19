@@ -8,11 +8,14 @@
   = link_to "ログアウト", destroy_user_session_path, method: :delete
  = form_with url: posts_path, method: :post, local: true do |form|
   p
-    = form.label :question_type
+    span 事業
     br
-    = form.select :question_type, { "J-Startup" => "J-Startup", "内閣府" => "内閣府", "CES" => "CES", "その他" => "その他" }
-  p
-    = form.label :title, "Topic"
+    = form.collection_select :question_type, Post.select(:question_type).distinct, :question_type, :question_type,{}, {class: 'program-type-form'}
+    = form.text_field :question_type, :class => "program-type-text"
+    i.fa.fa-plus.fa-plus-form aria-hidden="true"
+    br
+    br
+    = form.label :title, "テーマ"
     br
     = form.text_field :title, placeholder: "任意"
   p
@@ -27,14 +30,18 @@
 
  .search-form
   = form_with url: search_path, method: :get, local: true do |f|
-    = f.select :question_type, { "J-Startup" => "J-Startup", "内閣府" => "内閣府", "CES" => "CES" , "その他" => "その他" },selected: @question_type
+    = f.collection_select :question_type, Post.select(:question_type).distinct, :question_type, :question_type, selected: @question_type
     = f.text_field :keyword, value: @keyword, class: "col-sm-3 col-md-5 col-lg-6 search-box"
     = f.submit "検索"
-    = link_to "csv出力",posts_path(format: :csv), class: "csv-download btn btn-sm btn-success"
+    = link_to posts_path(format: :csv), class: "csv-download btn btn-sm btn-success" do
+      span csv出力
+      i.fa.fa-download aria-hidden="true"
     span.btn.btn-sm.btn-success.csv-download.import-button csvインポート
   = form_tag import_posts_path, multipart: true do
     .file-import-box
-     = link_to "入力用シート", download_csv_path, class: "btn btn-sm btn-dark", data: { confirm: 'csvインポート用のテンプレートをダウンロードしますか？' }
+     = link_to download_csv_path, class: "btn btn-sm btn-dark", data: { confirm: 'csvインポート用のテンプレートをダウンロードしますか？' } do
+      span テンプレート
+      i.fa.fa-download aria-hidden="true"
      = file_field_tag :file
      = submit_tag "インポート", class: "import-submit"
  .post-list
@@ -81,6 +88,8 @@
       div id="hello-#{ post.id }"
        span.date
          =post.created_at.strftime("%Y年%-m月%-d日 %-H時%-M分")
+         br
+         =post.email
        br
        .q-box
         |<span class="q-letter"> Q.

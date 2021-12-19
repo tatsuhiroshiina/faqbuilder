@@ -17,6 +17,29 @@
   </body>
   <script>
     $(function () {
+    $('.program-type-text').prop("disabled", true);
+    $('.program-type-text').keyup(function() {
+    if ($('.program-type-text').val() === "") {
+      $('.fa-plus-form').show();
+    }else{
+      $('.fa-plus-form').hide();
+    }
+    });
+    $(".fa-plus-form").on("click", function () {
+      if ($('.program-type-form').is(':hidden')) {
+        $('.program-type-form').show();
+        $('.program-type-form').prop("disabled", false);
+        $('.program-type-text').hide();
+        $('.program-type-text').prop("disabled", true);
+      }else{
+        $('.program-type-form').hide();
+        $('.program-type-form').prop("disabled", true);
+        $('.program-type-text').show();
+        $('.program-type-text').prop("disabled", false);
+      }
+    });
+    });
+    $(function () {
     $(document).on("click", ".import-button", function () {
       const box = $('.file-import-box');
       if (box.is(':hidden')) {

@@ -6,12 +6,7 @@ skip_before_action :verify_authenticity_token
   def create
     @post = Post.new(post_params)
     if @post.save
-        @posts_same_type = Post.where(question_type: @post.question_type)
-        if @posts_same_type != nil
-          @post.update(question_id: @posts_same_type.count)
-        else
-          @post.update(question_id: 1)
-        end
+        @post.update(email: current_user.email.sub!(/@.*/m, ""))
     end
     redirect_to posts_path
     @posts = Post.all
@@ -96,6 +91,6 @@ skip_before_action :verify_authenticity_token
       @post = Post.find(params[:id])
     end
     def post_params
-      params.permit(:title, :question, :answer, :question_id, :question_type)
+      params.permit(:title, :question, :answer, :question_id, :question_type, :email)
     end
 end
