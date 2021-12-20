@@ -46,6 +46,7 @@
      = submit_tag "インポート", class: "import-submit"
  .post-list
   - @posts.each do |post|
+    br
     div id="post-#{post.id}"
       .qa-container
        .type-and-id
