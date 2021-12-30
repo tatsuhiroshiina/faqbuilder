@@ -26,6 +26,7 @@ skip_before_action :verify_authenticity_token
     @posts = Post.search(params[:keyword]).where(question_type: params[:question_type]).order(created_at: :desc)
     @keyword = params[:keyword]
     @question_type = params[:question_type]
+    @scroll ="scroll"
     render "index"
   end
 
@@ -71,7 +72,8 @@ skip_before_action :verify_authenticity_token
   private
 
   def products_csv
-    csv_date = CSV.generate do |csv|
+    bom = "\uFEFF"
+    csv_date = CSV.generate(bom) do |csv|
     csv_column_names = ["ID","Type", "Title", "Question","Answer"]
     csv << csv_column_names
     @posts.each do |post|

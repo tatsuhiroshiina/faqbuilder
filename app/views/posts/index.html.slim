@@ -45,6 +45,7 @@
      = file_field_tag :file
      = submit_tag "インポート", class: "import-submit"
  .post-list
+  - @posts = @posts.page(params[:page]).per(5)
   - @posts.each do |post|
     br
     div id="post-#{post.id}"
@@ -105,3 +106,12 @@
          <p id="js-comment-label-#{ post.id }" class="answerlabel">
          #{safe_join(post.answer.to_s.split("\n"),tag(:br))}
          </p>
+ = paginate @posts
+p.scroll
+  = @scroll
+|<script>
+  if (!$('.scroll').is(':empty')){
+  const search = $('.search-form').offset();
+  window.scrollTo({top: 950, behavior: 'instant'});
+  }
+ </script>

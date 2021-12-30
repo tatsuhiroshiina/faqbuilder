@@ -4,6 +4,13 @@
 .question-label{
   color: blue;
 }
+.scroll{
+  opacity: 0;
+}
+nav.pagination{
+  text-align: center;
+  display: block;
+}
 .answer-label{
   color: red;
 }
@@ -26,6 +33,7 @@
   margin-left: 20px;
   border-radius: 13px;
   padding: 5px;
+  cursor: pointer;
 }
 .import-submit{
   cursor: pointer;
