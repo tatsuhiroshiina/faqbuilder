@@ -15,14 +15,14 @@
     i.fa.fa-plus.fa-plus-form aria-hidden="true"
     br
     br
-    = form.label :title, "テーマ"
+    = form.label :title, "件名"
     br
     = form.text_field :title, placeholder: "任意"
   p
-    = form.label :question, class: "question-label"
+    = form.label :question, "やり取り", class: "question-label"
     br
     = form.text_area :question, class: "enter-boxes col-11"
-  p
+  /p
     = form.label :answer, class: "answer-label"
     br
     = form.text_area :answer, class: "enter-boxes col-11"
@@ -68,13 +68,13 @@
        |
         <div id="js-question-#{ post.id }">
          <span style="display: none;" class="target-#{ post.id }" id="js-Q-question-#{ post.id }">
-          Q.
+          やり取り
         　</span>
          <textarea style="display: none;" id="js-textarea-question-#{ post.id }" class="form-control comment-post-error">
           #{ post.question }
          </textarea>
         </div>
-        <div id="js-comment-#{ post.id }">
+       /<div id="js-comment-#{ post.id }">
          <span style="display: none;" id="js-A-comment-#{ post.id }">
           A.
         　</span>
@@ -94,17 +94,23 @@
          =post.email
        br
        .q-box
-        |<span class="q-letter"> Q.
+        |<span class="q-letter"> やり取り
          </span>
+         <details>
+         <summary>詳細</summary>
          <p id="js-question-label-#{ post.id }" class="questionlabel">
          #{safe_join(post.question.to_s.split("\n"),tag(:br))}
          </p>
+         </details>
        br
-       .a-box
+       /.a-box
         |<span class="a-letter"> A.
          </span>
          <p id="js-comment-label-#{ post.id }" class="answerlabel">
+         <details open>
+         <summary>詳細...</summary>
          #{safe_join(post.answer.to_s.split("\n"),tag(:br))}
+         </details>
          </p>
  = paginate @posts
 p.scroll
