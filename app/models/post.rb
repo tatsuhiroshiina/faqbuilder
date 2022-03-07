@@ -1,7 +1,6 @@
 class Post < ApplicationRecord
   validates :question, presence: true
   validates :question_type, presence: true
-  validates :answer, presence: true
 
   def self.search(keyword)
     where(["cast(id as text) like? OR question_type like? OR title like? OR question like? OR answer like?", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%"])
