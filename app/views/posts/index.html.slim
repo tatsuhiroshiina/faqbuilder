@@ -97,7 +97,7 @@
        .q-box
         |
          <p id="js-question-label-#{ post.id }" class="questionlabel">
-         #{post.question.to_s.split("\n")}
+         #{safe_join(post.question.to_s.split("\n"),tag(:br))}
          </p>
        br
        /.a-box
