@@ -94,9 +94,7 @@
          =post.email
        br
        .q-box
-        |<span class="q-letter"> やり取り
-         </span>
-         <details>
+        |<details>
          <summary>詳細</summary>
          <p id="js-question-label-#{ post.id }" class="questionlabel">
          #{safe_join(post.question.to_s.split("\n"),tag(:br))}
