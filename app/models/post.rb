@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
   validates :question, presence: true
+  validates :answer, presence: true
   validates :question_type, presence: true
 
   def self.search(keyword)
@@ -18,6 +19,6 @@ class Post < ApplicationRecord
 
 # 更新を許可するカラムを定義
   def self.updatable_attributes
-    ["title", "question_type", "question", "answer", "questioner"]
+    ["title", "question_type", "question", "answer"]
   end
 end
