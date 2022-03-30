@@ -74,7 +74,7 @@ skip_before_action :verify_authenticity_token
   def products_csv
     bom = "\uFEFF"
     csv_date = CSV.generate(bom) do |csv|
-    csv_column_names = ["ID","Type", "Title", "Question","Answer", "Questioner"]
+    csv_column_names = ["ID","Type", "Title", "Question","Answer","Questioner"]
     csv << csv_column_names
     @posts.each do |post|
       csv_column_values = [
