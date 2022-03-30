@@ -74,7 +74,7 @@ skip_before_action :verify_authenticity_token
   def products_csv
     bom = "\uFEFF"
     csv_date = CSV.generate(bom) do |csv|
-    csv_column_names = ["ID","Type", "Title", "Question","Answer"]
+    csv_column_names = ["ID","Type", "Title", "Question","Answer", "Questioner"]
     csv << csv_column_names
     @posts.each do |post|
       csv_column_values = [
@@ -83,6 +83,7 @@ skip_before_action :verify_authenticity_token
         post.title,
         post.question,
         post.answer,
+        post.questioner
       ]
       csv << csv_column_values
       end
@@ -93,6 +94,6 @@ skip_before_action :verify_authenticity_token
       @post = Post.find(params[:id])
     end
     def post_params
-      params.permit(:title, :question, :answer, :question_id, :question_type, :email)
+      params.permit(:title, :question, :answer, :question_id, :question_type, :email, :questioner)
     end
 end

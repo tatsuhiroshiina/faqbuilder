@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_18_185826) do
+ActiveRecord::Schema.define(version: 2022_03_30_065828) do
 
   create_table "posts", force: :cascade do |t|
     t.text "question"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2021_12_18_185826) do
     t.string "question_type"
     t.string "title"
     t.string "email"
+    t.string "questioner"
   end
 
   create_table "users", force: :cascade do |t|

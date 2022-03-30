@@ -18,6 +18,6 @@ class Post < ApplicationRecord
 
 # 更新を許可するカラムを定義
   def self.updatable_attributes
-    ["title", "question_type", "question"]
+    ["title", "question_type", "question", "answer", "questioner"]
   end
 end

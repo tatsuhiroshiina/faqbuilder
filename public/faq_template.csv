@@ -1,7 +1,1 @@
-question_type,title,question,answer,
-,,,,"←各項目に記入後、csvをインポート　
-　　　　⚠️question_typeは必ず打ち間違えないように！！大文字・小文字も完全一致させる
-　　　　question_type: J-Startup、内閣府、CES、その他 等
-　　　　title: 質問テーマ
-　　　　question: 質問
-　　　　answer: 回答"
+question_type,title,question,answer,questioner
